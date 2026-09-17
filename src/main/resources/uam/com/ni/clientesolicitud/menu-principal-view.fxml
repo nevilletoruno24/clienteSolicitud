@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uam.com.ni.clientesolicitud.controller.MenuPrincipalController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Archivo">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#onExportarDirectorioAction" text="Exportar Resumen a Carpeta (DirectoryChooser)..." />
+                    <MenuItem mnemonicParsing="false" onAction="#onNotaRapidaDialogAction" text="Registrar Nota (Dialog)..." />
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" onAction="#onCerrarSesionAction" text="Cerrar Sesión" />
+                    <MenuItem mnemonicParsing="false" onAction="#onSalirAction" text="Salir del Sistema" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Clientes">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#onRegistrarClienteAction" text="Registrar Nuevo Cliente" />
+                    <MenuItem mnemonicParsing="false" onAction="#onConsultarClientesAction" text="Consultar Catálogo de Clientes" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ayuda">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#onAcercaDeAction" text="Acerca del Sistema..." />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar>
+               <items>
+                  <Button mnemonicParsing="false" onAction="#onRegistrarClienteAction" text="Nuevo Cliente" />
+                  <Button mnemonicParsing="false" onAction="#onConsultarClientesAction" text="Ver Catálogo" />
+                  <Separator orientation="VERTICAL" />
+                  <Button mnemonicParsing="false" onAction="#onExportarDirectorioAction" text="Exportar a Carpeta" />
+                  <Button mnemonicParsing="false" onAction="#onNotaRapidaDialogAction" text="Nota Rápida" />
+                  <Separator orientation="VERTICAL" />
+                  <Button mnemonicParsing="false" onAction="#onCerrarSesionAction" text="Cerrar Sesión" />
+               </items>
+            </ToolBar>
+            <VBox spacing="4.0">
+               <children>
+                  <Label text="Menú Principal - Gestión de Clientes y Solicitudes">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label text="Utilice los botones, la barra de menús o haga clic derecho para el menú contextual." />
+                  <Separator />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="15.0" right="15.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Resumen del Sistema">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <GridPane hgap="15.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints prefHeight="70.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Label text="Total Clientes" />
+                        <Label fx:id="lblTotalClientes" text="3">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label text="Créditos" />
+                        <Label fx:id="lblCreditos" text="1">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="2">
+                     <children>
+                        <Label text="Cuentas" />
+                        <Label fx:id="lblCuentas" text="1">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="3">
+                     <children>
+                        <Label text="Reclamos/Soporte" />
+                        <Label fx:id="lblReclamos" text="1">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+            <Separator />
+            <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label text="Accesos Rápidos">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox spacing="15.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onRegistrarClienteAction" prefHeight="40.0" prefWidth="180.0" text="Registrar Nuevo Cliente" />
+                        <Button mnemonicParsing="false" onAction="#onConsultarClientesAction" prefHeight="40.0" prefWidth="180.0" text="Consultar Clientes" />
+                        <Button mnemonicParsing="false" onAction="#onExportarDirectorioAction" prefHeight="40.0" prefWidth="180.0" text="Exportar a Carpeta" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Separator />
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Sesión iniciada: Administrador | Clic derecho para menú contextual" />
+               </children>
+               <padding>
+                  <Insets bottom="6.0" left="15.0" right="15.0" top="6.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>
