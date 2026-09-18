@@ -11,6 +11,9 @@ import uam.com.ni.clientesolicitud.util.NavigationUtil;
 
 public class LoginController {
 
+    private static final String USUARIO_VALIDO = "admin";
+    private static final String PASSWORD_VALIDO = "admin ";
+
     @FXML
     private TextField txtUsuario;
 
@@ -27,10 +30,7 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // Navegación por teclado: Enter en usuario pasa el foco a contraseña
         txtUsuario.setOnKeyPressed(this::manejarTeclaUsuario);
-
-        // Ocultar mensaje de error al teclear
         txtUsuario.textProperty().addListener((obs, oldV, newV) -> ocultarError());
         txtPassword.textProperty().addListener((obs, oldV, newV) -> ocultarError());
     }
@@ -43,42 +43,56 @@ public class LoginController {
 
     @FXML
     private void onIniciarSesionAction() {
-        if (navegando) {
-            return;
-        }
+        if (navegando) {return;}
 
-        String usuario = txtUsuario.getText() != null ? txtUsuario.getText().trim() : "";
-        String pass = txtPassword.getText() != null ? txtPassword.getText().trim() : "";
+        String usuario = obtenerTexto(txtUsuario);
+        String pass = obtenerTexto(txtPassword);
 
-        // Validación de campos obligatorios
-        if (usuario.isEmpty()) {
-            mostrarError("Por favor, ingrese su nombre de usuario para continuar.");
-            txtUsuario.requestFocus();
-            return;
-        }
-
-        if (pass.isEmpty()) {
-            mostrarError("Por favor, ingrese su contraseña.");
-            txtPassword.requestFocus();
-            return;
-        }
-
-        // Validación de credenciales
-        if (usuario.equalsIgnoreCase("admin") && !pass.equals("admin123")) {
-            mostrarError("Contraseña incorrecta. Verifique sus credenciales.");
-            txtPassword.requestFocus();
+        if (!validarFormulario(usuario, pass)) {
             return;
         }
 
         navegando = true;
         ocultarError();
-        NavigationUtil.cambiarEscena(
+
+        var loader = NavigationUtil.cambiarEscena(
                 txtUsuario,
                 "menu-principal-view.fxml",
                 "Sistema de Registro y Solicitudes - Menú Principal",
                 850,
                 600
         );
+
+        if (loader == null) {
+            navegando = false;
+        }
+    }
+
+    private boolean validarFormulario(String usuario, String pass) {
+        if (usuario.isEmpty()) {
+            mostrarError("Por favor, ingrese su nombre de usuario.");
+            txtUsuario.requestFocus();
+            return false;
+        }
+
+        if (pass.isEmpty()) {
+            mostrarError("Por favor, ingrese su contraseña.");
+            txtPassword.requestFocus();
+            return false;
+        }
+
+        if (!usuario.equalsIgnoreCase(USUARIO_VALIDO) || !pass.equals(PASSWORD_VALIDO)) {
+            mostrarError("Credenciales incorrectas. Verifique usuario y contraseña.");
+            txtPassword.clear();
+            txtPassword.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    private String obtenerTexto(TextField campo) {
+        return campo.getText() != null ? campo.getText().trim() : "";
     }
 
     private void mostrarError(String mensaje) {
