@@ -1,6 +1,8 @@
 module uam.com.ni.clientesolicitud {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.fontawesome5;
 
     opens uam.com.ni.clientesolicitud to javafx.fxml;
     opens uam.com.ni.clientesolicitud.controller to javafx.fxml;

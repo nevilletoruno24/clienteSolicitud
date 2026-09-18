@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<fx:root type="VBox"
+         spacing="6.0"
+         alignment="TOP_LEFT"
+         xmlns="http://javafx.com/javafx/21"
+         xmlns:fx="http://javafx.com/fxml/1">
+
+    <Label fx:id="lblTitle"
+           style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #334155;"/>
+
+    <StackPane alignment="CENTER_RIGHT">
+        <TextField fx:id="txtInput"
+                   maxWidth="Infinity"
+                   style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #F8FAFC; -fx-background-radius: 8px; -fx-border-color: #CBD5E1; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-padding: 10px 38px 10px 14px; -fx-font-size: 13px; -fx-text-fill: #0F172A; -fx-prompt-text-fill: #94A3B8;"/>
+
+        <PasswordField fx:id="txtPassword"
+                       maxWidth="Infinity"
+                       visible="false"
+                       managed="false"
+                       style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #F8FAFC; -fx-background-radius: 8px; -fx-border-color: #CBD5E1; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-padding: 10px 38px 10px 14px; -fx-font-size: 13px; -fx-text-fill: #0F172A; -fx-prompt-text-fill: #94A3B8;"/>
+
+        <Button fx:id="btnTogglePassword"
+                visible="false"
+                managed="false"
+                focusTraversable="false"
+                onAction="#onTogglePassword"
+                style="-fx-background-color: transparent; -fx-cursor: hand; -fx-padding: 0 12 0 0;">
+            <graphic>
+                <FontIcon fx:id="iconEye" iconLiteral="fas-eye" iconSize="16" iconColor="#94A3B8"/>
+            </graphic>
+        </Button>
+    </StackPane>
+</fx:root>

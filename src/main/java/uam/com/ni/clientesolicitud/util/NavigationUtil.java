@@ -25,29 +25,33 @@ public class NavigationUtil {
     }
 
     public static FXMLLoader cambiarEscena(Object origen, String vista, String titulo, int ancho, int alto) {
+        Node node = null;
+        if (origen instanceof Node n) {
+            node = n;
+        } else if (origen instanceof Event event && event.getSource() instanceof Node n) {
+            node = n;
+        }
+
+        String ruta = vista.startsWith("/") ? vista : RUTA_BASE + vista;
+
+        if (node != null && node.getScene() != null) {
+            Stage stage = (Stage) node.getScene().getWindow();
+            if (stage != null) {
+                stage.setWidth(ancho);
+                stage.setHeight(alto);
+                stage.centerOnScreen();
+            }
+            return SceneNavigator.cambiarPantalla(node, ruta, titulo);
+        }
+
+        Stage stage = (origen instanceof Stage s) ? s : obtenerStageActivo(null);
+        if (stage == null) {
+            stage = new Stage();
+        }
         try {
-            Stage stage = null;
-            if (origen instanceof Node node && node.getScene() != null) {
-                stage = (Stage) node.getScene().getWindow();
-            } else if (origen instanceof Event event) {
-                stage = obtenerStageActivo(event);
-            } else if (origen instanceof Stage s) {
-                stage = s;
-            }
-
-            if (stage == null) {
-                stage = obtenerStageActivo(null);
-            }
-            if (stage == null) {
-                stage = new Stage();
-            }
-
-            String ruta = vista.startsWith("/") ? vista : RUTA_BASE + vista;
             FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(ruta));
             Parent root = loader.load();
-
             stage.setTitle(titulo);
-
             Scene scene = stage.getScene();
             if (scene == null) {
                 stage.setScene(new Scene(root, ancho, alto));
@@ -56,12 +60,10 @@ public class NavigationUtil {
                 stage.setWidth(ancho);
                 stage.setHeight(alto);
             }
-
             stage.centerOnScreen();
             if (!stage.isShowing()) {
                 stage.show();
             }
-
             return loader;
         } catch (Exception e) {
             AlertUtil.mostrarError("Error de Navegación", "No se pudo cargar la vista solicitada.", e.getMessage());
