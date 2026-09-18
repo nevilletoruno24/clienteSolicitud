@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -66,6 +67,13 @@
                 <TextField fx:id="txtBuscar" promptText="Buscar por nombre, código, ciudad o solicitud..."
                            HBox.hgrow="ALWAYS"
                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: transparent; -fx-font-size: 13px; -fx-text-fill: #0F172A; -fx-prompt-text-fill: #94A3B8;"/>
+                <Button mnemonicParsing="false" onAction="#onBuscarPorCodigoDialogAction"
+                        text="Buscar por Código"
+                        style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #F8FAFC; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #334155; -fx-font-size: 11px; -fx-font-weight: bold; -fx-padding: 4px 10px; -fx-cursor: hand;">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-search-plus" iconSize="11" iconColor="#2563EB"/>
+                    </graphic>
+                </Button>
                 <Separator orientation="VERTICAL" maxHeight="18.0"/>
                 <Label fx:id="lblContador" text="Cargando registros..."
                        style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748B;"/>
@@ -80,8 +88,9 @@
                     <TableColumn fx:id="colTipoCliente" prefWidth="105.0" text="Tipo Cliente"/>
                     <TableColumn fx:id="colCiudad" prefWidth="100.0" text="Ciudad"/>
                     <TableColumn fx:id="colFechaNacimiento" prefWidth="110.0" text="F. Nacimiento"/>
-                    <TableColumn fx:id="colTipoSolicitud" prefWidth="135.0" text="Tipo Solicitud"/>
-                    <TableColumn fx:id="colServicios" prefWidth="175.0" text="Servicios"/>
+                    <TableColumn fx:id="colTipoSolicitud" prefWidth="125.0" text="Tipo Solicitud"/>
+                    <TableColumn fx:id="colServicios" prefWidth="155.0" text="Servicios"/>
+                    <TableColumn fx:id="colAcciones" prefWidth="110.0" minWidth="105.0" maxWidth="120.0" text="Acciones"/>
                 </columns>
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -90,36 +99,15 @@
                     <ContextMenu>
                         <items>
                             <MenuItem mnemonicParsing="false" onAction="#onVerDetalleAction" text="Ver Expediente del Cliente"/>
+                            <MenuItem mnemonicParsing="false" onAction="#onEditarClienteSeleccionadoAction" text="Editar Datos del Cliente"/>
+                            <MenuItem mnemonicParsing="false" onAction="#onBuscarPorCodigoDialogAction" text="Buscar por Código..."/>
+                            <SeparatorMenuItem/>
                             <MenuItem mnemonicParsing="false" onAction="#onEliminarClienteAction" text="Eliminar Registro"/>
                         </items>
                     </ContextMenu>
                 </contextMenu>
             </TableView>
 
-            <!-- Barra Inferior de Acciones sobre Selección -->
-            <HBox alignment="CENTER_LEFT" spacing="12.0"
-                  style="-fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-border-color: #E2E8F0; -fx-border-radius: 10px; -fx-border-width: 1px; -fx-padding: 10px 16px;">
-                <Label text="Atajos: ENTER (Ver Detalle) • DELETE (Eliminar) • ESC (Volver)"
-                       style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 11px; -fx-text-fill: #94A3B8;"/>
-
-                <HBox alignment="CENTER_RIGHT" spacing="12.0" HBox.hgrow="ALWAYS">
-                    <Button mnemonicParsing="false" onAction="#onEliminarClienteAction"
-                            text="Eliminar"
-                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #FEF2F2; -fx-border-color: #FECACA; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #DC2626; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 6px 14px; -fx-cursor: hand;">
-                        <graphic>
-                            <FontIcon iconLiteral="fas-trash-alt" iconSize="12" iconColor="#DC2626"/>
-                        </graphic>
-                    </Button>
-
-                    <Button mnemonicParsing="false" onAction="#onVerDetalleAction"
-                            text="Ver Expediente Detallado"
-                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #EFF6FF; -fx-border-color: #DBEAFE; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #2563EB; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 6px 16px; -fx-cursor: hand;">
-                        <graphic>
-                            <FontIcon iconLiteral="fas-id-card" iconSize="13" iconColor="#2563EB"/>
-                        </graphic>
-                    </Button>
-                </HBox>
-            </HBox>
         </VBox>
     </center>
 

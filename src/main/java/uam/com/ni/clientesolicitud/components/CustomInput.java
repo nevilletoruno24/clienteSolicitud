@@ -69,6 +69,22 @@ public class CustomInput extends VBox {
         }
     }
 
+    public boolean getIsPassword() {
+        return isPassword;
+    }
+
+    public boolean isPassword() {
+        return isPassword;
+    }
+
+    public boolean isIsPassword() {
+        return isPassword;
+    }
+
+    public void setPassword(boolean value) {
+        setIsPassword(value);
+    }
+
     public void setIsPassword(boolean value) {
         this.isPassword = value;
         if (value) {

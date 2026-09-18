@@ -2,8 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -18,12 +24,101 @@
             style="-fx-background-color: #F8FAFC;"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="uam.com.ni.clientesolicitud.controller.MenuPrincipalController">
+            fx:controller="uam.com.ni.clientesolicitud.controller.MenuPrincipalController"
+            onContextMenuRequested="#onContextMenuRequested">
 
-    <!-- Encabezado Superior Principal -->
+    <fx:define>
+        <ContextMenu fx:id="contextMenu">
+            <items>
+                <MenuItem text="Registrar Nuevo Cliente" onAction="#onRegistrarClienteAction">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-user-plus" iconSize="13" iconColor="#2563EB"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem text="Consultar Catálogo de Clientes" onAction="#onConsultarClientesAction">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-table" iconSize="13" iconColor="#4F46E5"/>
+                    </graphic>
+                </MenuItem>
+                <SeparatorMenuItem/>
+                <MenuItem text="Actualizar Métricas" onAction="#onActualizarMetricasAction">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-sync-alt" iconSize="13" iconColor="#2563EB"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem text="Exportar Catálogo a CSV" onAction="#onExportarDirectorioAction">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-file-export" iconSize="13" iconColor="#0D9488"/>
+                    </graphic>
+                </MenuItem>
+                <SeparatorMenuItem/>
+                <MenuItem text="Cerrar Sesión" onAction="#onCerrarSesionAction">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-sign-out-alt" iconSize="13" iconColor="#64748B"/>
+                    </graphic>
+                </MenuItem>
+            </items>
+        </ContextMenu>
+    </fx:define>
+
+    <!-- Encabezado Superior Principal con MenuBar y ToolBar -->
     <top>
         <VBox style="-fx-background-color: #FFFFFF; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0;">
-            <HBox alignment="CENTER_LEFT" spacing="16.0" style="-fx-padding: 16px 28px;">
+            <MenuBar style="-fx-background-color: #F8FAFC; -fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0; -fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 12px;">
+                <menus>
+                    <Menu text="Archivo">
+                        <items>
+                            <MenuItem text="Nuevo Cliente" onAction="#onRegistrarClienteAction">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-user-plus" iconSize="13" iconColor="#2563EB"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="Consultar Catálogo" onAction="#onConsultarClientesAction">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-table" iconSize="13" iconColor="#4F46E5"/>
+                                </graphic>
+                            </MenuItem>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="Exportar Catálogo a CSV..." onAction="#onExportarDirectorioAction">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-file-export" iconSize="13" iconColor="#0D9488"/>
+                                </graphic>
+                            </MenuItem>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="Cerrar Sesión" onAction="#onCerrarSesionAction">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-sign-out-alt" iconSize="13" iconColor="#64748B"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="Salir" onAction="#onSalirAction">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-power-off" iconSize="13" iconColor="#DC2626"/>
+                                </graphic>
+                            </MenuItem>
+                        </items>
+                    </Menu>
+                    <Menu text="Herramientas">
+                        <items>
+                            <MenuItem text="Actualizar Métricas" onAction="#onActualizarMetricasAction">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-sync-alt" iconSize="13" iconColor="#2563EB"/>
+                                </graphic>
+                            </MenuItem>
+                        </items>
+                    </Menu>
+                    <Menu text="Ayuda">
+                        <items>
+                            <MenuItem text="Acerca de..." onAction="#onAcercaDeAction">
+                                <graphic>
+                                    <FontIcon iconLiteral="fas-info-circle" iconSize="13" iconColor="#64748B"/>
+                                </graphic>
+                            </MenuItem>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+
+            <HBox alignment="CENTER_LEFT" spacing="16.0" style="-fx-padding: 14px 28px;">
                 <StackPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0"
                            style="-fx-background-color: #EFF6FF; -fx-background-radius: 10px; -fx-border-color: #DBEAFE; -fx-border-radius: 10px; -fx-border-width: 1px;">
                     <FontIcon iconLiteral="fas-cubes" iconSize="20" iconColor="#2563EB"/>
@@ -54,6 +149,36 @@
                     </Button>
                 </HBox>
             </HBox>
+
+            <ToolBar style="-fx-background-color: #FAFAFA; -fx-border-color: #E2E8F0; -fx-border-width: 1 0 0 0; -fx-padding: 6px 28px;">
+                <items>
+                    <Button mnemonicParsing="false" onAction="#onRegistrarClienteAction" text="Nuevo Cliente"
+                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #1E293B; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px; -fx-cursor: hand;">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-user-plus" iconSize="12" iconColor="#2563EB"/>
+                        </graphic>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#onConsultarClientesAction" text="Catálogo"
+                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #1E293B; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px; -fx-cursor: hand;">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-table" iconSize="12" iconColor="#4F46E5"/>
+                        </graphic>
+                    </Button>
+                    <Separator orientation="VERTICAL" maxHeight="18.0"/>
+                    <Button mnemonicParsing="false" onAction="#onExportarDirectorioAction" text="Exportar CSV"
+                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #334155; -fx-font-size: 12px; -fx-padding: 5px 12px; -fx-cursor: hand;">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-file-export" iconSize="12" iconColor="#0D9488"/>
+                        </graphic>
+                    </Button>
+                    <Button mnemonicParsing="false" onAction="#onActualizarMetricasAction" text="Actualizar"
+                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #334155; -fx-font-size: 12px; -fx-padding: 5px 12px; -fx-cursor: hand;">
+                        <graphic>
+                            <FontIcon iconLiteral="fas-sync-alt" iconSize="12" iconColor="#2563EB"/>
+                        </graphic>
+                    </Button>
+                </items>
+            </ToolBar>
         </VBox>
     </top>
 
@@ -158,14 +283,6 @@
                         style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #F8FAFC; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #334155; -fx-font-size: 12px; -fx-padding: 6px 12px; -fx-cursor: hand;">
                     <graphic>
                         <FontIcon iconLiteral="fas-file-export" iconSize="13" iconColor="#2563EB"/>
-                    </graphic>
-                </Button>
-
-                <Button mnemonicParsing="false" onAction="#onNotaRapidaDialogAction"
-                        text="Nota Rápida"
-                        style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #F8FAFC; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #334155; -fx-font-size: 12px; -fx-padding: 6px 12px; -fx-cursor: hand;">
-                    <graphic>
-                        <FontIcon iconLiteral="fas-sticky-note" iconSize="13" iconColor="#D97706"/>
                     </graphic>
                 </Button>
 

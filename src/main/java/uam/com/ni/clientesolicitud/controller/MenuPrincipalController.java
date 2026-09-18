@@ -1,9 +1,9 @@
 package uam.com.ni.clientesolicitud.controller;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import uam.com.ni.clientesolicitud.components.StatCardComponent;
@@ -11,7 +11,6 @@ import uam.com.ni.clientesolicitud.model.DataStore;
 import uam.com.ni.clientesolicitud.util.AlertUtil;
 import uam.com.ni.clientesolicitud.util.AppRoutes;
 import uam.com.ni.clientesolicitud.util.CsvExportUtil;
-import uam.com.ni.clientesolicitud.util.NavigationUtil;
 import uam.com.ni.clientesolicitud.util.SceneNavigator;
 
 import java.io.File;
@@ -21,6 +20,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class MenuPrincipalController {
+
+    @FXML
+    private ContextMenu contextMenu;
 
     @FXML
     private StatCardComponent cardTotal;
@@ -37,6 +39,13 @@ public class MenuPrincipalController {
     @FXML
     public void initialize() {
         actualizarEstadisticas();
+    }
+
+    @FXML
+    private void onContextMenuRequested(ContextMenuEvent event) {
+        if (contextMenu != null && cardTotal != null && cardTotal.getScene() != null) {
+            contextMenu.show(cardTotal.getScene().getWindow(), event.getScreenX(), event.getScreenY());
+        }
     }
 
     public void actualizarEstadisticas() {
@@ -68,33 +77,34 @@ public class MenuPrincipalController {
     }
 
     @FXML
-    private void onRegistrarClienteAction(ActionEvent event) {
-        if (event.getSource() instanceof Node node) {
-            SceneNavigator.cambiarPantalla(
-                    node,
-                    AppRoutes.REGISTRO,
-                    "Registro de Clientes y Solicitudes"
-            );
-        }
+    private void onActualizarMetricasAction() {
+        actualizarEstadisticas();
     }
 
     @FXML
-    private void onConsultarClientesAction(ActionEvent event) {
-        if (event.getSource() instanceof Node node) {
-            SceneNavigator.cambiarPantalla(
-                    node,
-                    AppRoutes.CONSULTA,
-                    "Consulta y Administración de Clientes"
-            );
-        }
+    private void onRegistrarClienteAction() {
+        SceneNavigator.cambiarPantalla(
+                cardTotal,
+                AppRoutes.REGISTRO,
+                "Registro de Clientes y Solicitudes"
+        );
     }
 
     @FXML
-    private void onExportarDirectorioAction(ActionEvent event) {
+    private void onConsultarClientesAction() {
+        SceneNavigator.cambiarPantalla(
+                cardTotal,
+                AppRoutes.CONSULTA,
+                "Consulta y Administración de Clientes"
+        );
+    }
+
+    @FXML
+    private void onExportarDirectorioAction() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Seleccionar Carpeta para Exportar Reporte de Clientes");
 
-        Stage stage = NavigationUtil.obtenerStageActivo(event);
+        Stage stage = (Stage) cardTotal.getScene().getWindow();
         File carpetaSeleccionada = directoryChooser.showDialog(stage);
 
         if (carpetaSeleccionada != null) {
@@ -117,28 +127,16 @@ public class MenuPrincipalController {
     }
 
     @FXML
-    private void onNotaRapidaDialogAction() {
-        Optional<String> respuesta = AlertUtil.mostrarDialogoTexto(
-                "Nota Rápida del Sistema",
-                "Registrar mensaje de recordatorio del día",
-                "Ingrese el recordatorio para la sucursal:",
-                "Atención prioritaria a solicitudes de crédito hoy."
-        );
-
-        respuesta.ifPresent(nota -> AlertUtil.mostrarInfo("Recordatorio Guardado", "Nota registrada", "Mensaje: \"" + nota + "\""));
-    }
-
-    @FXML
-    private void onCerrarSesionAction(ActionEvent event) {
+    private void onCerrarSesionAction() {
         boolean confirmar = AlertUtil.mostrarConfirmacion(
                 "Cerrar Sesión",
                 "¿Está seguro de cerrar sesión?",
                 "Regresará a la pantalla de inicio de sesión."
         );
 
-        if (confirmar && event.getSource() instanceof Node node) {
+        if (confirmar) {
             SceneNavigator.cambiarPantalla(
-                    node,
+                    cardTotal,
                     AppRoutes.LOGIN,
                     "Sistema de Clientes - Inicio de Sesión"
             );

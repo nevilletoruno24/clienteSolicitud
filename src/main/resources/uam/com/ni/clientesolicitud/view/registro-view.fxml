@@ -43,9 +43,9 @@
                 <Separator orientation="VERTICAL" maxHeight="24.0"/>
 
                 <VBox alignment="CENTER_LEFT" spacing="2.0" HBox.hgrow="ALWAYS">
-                    <Label text="Registro de Nuevo Cliente y Solicitud"
+                    <Label fx:id="lblTituloPantalla" text="Registro de Nuevo Cliente y Solicitud"
                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
-                    <Label text="Complete la información del cliente y configure los detalles de su solicitud."
+                    <Label fx:id="lblSubtituloPantalla" text="Complete la información del cliente y configure los detalles de su solicitud."
                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 12px; -fx-text-fill: #64748B;"/>
                 </VBox>
             </HBox>

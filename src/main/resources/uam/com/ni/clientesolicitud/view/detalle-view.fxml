@@ -43,9 +43,17 @@
                         <Label fx:id="lblCodigo" text="CLI-0000"
                                style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2563EB;"/>
                     </HBox>
-                    <Label text="Consulta detallada de información y actualización de observaciones."
+                    <Label text="Consulta detallada de información del expediente registrado."
                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 12px; -fx-text-fill: #64748B;"/>
                 </VBox>
+
+                <Button mnemonicParsing="false" onAction="#onEditarClienteAction"
+                        text="Editar Cliente"
+                        style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #2563EB; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-text-fill: #FFFFFF; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 8px 16px; -fx-cursor: hand;">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-edit" iconSize="12" iconColor="#FFFFFF"/>
+                    </graphic>
+                </Button>
             </HBox>
         </VBox>
     </top>
@@ -127,32 +135,19 @@
                 </HBox>
             </VBox>
 
-            <!-- Sección de Observaciones y Edición -->
+            <!-- Sección de Observaciones (Solo Lectura) -->
             <VBox spacing="10.0" VBox.vgrow="ALWAYS"
                   style="-fx-background-color: #FFFFFF; -fx-background-radius: 12px; -fx-border-color: #E2E8F0; -fx-border-radius: 12px; -fx-border-width: 1px; -fx-padding: 20px;">
                 <HBox alignment="CENTER_LEFT" spacing="12.0">
                     <Label text="Observaciones de la Solicitud"
                            style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #334155;"/>
                     <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
-                        <Button mnemonicParsing="false" onAction="#onEditarConDialogAction"
-                                text="Editar con Diálogo (Dialog)..."
-                                style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #F8FAFC; -fx-border-color: #CBD5E1; -fx-border-radius: 6px; -fx-background-radius: 6px; -fx-text-fill: #334155; -fx-font-size: 12px; -fx-padding: 6px 12px; -fx-cursor: hand;">
-                            <graphic>
-                                <FontIcon iconLiteral="fas-edit" iconSize="12" iconColor="#475569"/>
-                            </graphic>
-                        </Button>
-
-                        <Button mnemonicParsing="false" onAction="#onGuardarCambiosAction"
-                                text="Guardar Observación"
-                                style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #2563EB; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-text-fill: #FFFFFF; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 6px 14px; -fx-cursor: hand;">
-                            <graphic>
-                                <FontIcon iconLiteral="fas-save" iconSize="12" iconColor="#FFFFFF"/>
-                            </graphic>
-                        </Button>
+                        <Label text="Solo Lectura"
+                               style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #64748B; -fx-background-color: #F1F5F9; -fx-padding: 4px 10px; -fx-background-radius: 4px;"/>
                     </HBox>
                 </HBox>
 
-                <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Sin observaciones registradas..." wrapText="true"
+                <TextArea fx:id="txtObservaciones" editable="false" prefRowCount="3" promptText="Sin observaciones registradas..." wrapText="true"
                           VBox.vgrow="ALWAYS"
                           style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #F8FAFC; -fx-background-radius: 8px; -fx-border-color: #CBD5E1; -fx-border-radius: 8px; -fx-font-size: 13px;"/>
             </VBox>

@@ -1,10 +1,12 @@
 package uam.com.ni.clientesolicitud.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import uam.com.ni.clientesolicitud.components.CustomInput;
+import uam.com.ni.clientesolicitud.util.AlertUtil;
 import uam.com.ni.clientesolicitud.util.AppRoutes;
 import uam.com.ni.clientesolicitud.util.SceneNavigator;
 
@@ -66,15 +68,29 @@ public class LoginController {
         }
     }
 
+    @FXML
+    private void onSalirAction() {
+        boolean confirmar = AlertUtil.mostrarConfirmacion(
+                "Salir del Sistema",
+                "¿Desea cerrar la aplicación?",
+                "Presione Aceptar para salir o Cancelar para continuar."
+        );
+        if (confirmar) {
+            Platform.exit();
+        }
+    }
+
     private boolean validarFormulario(String usuario, String pass) {
         if (usuario.isEmpty()) {
             mostrarError("Por favor, ingrese su nombre de usuario.");
+            AlertUtil.mostrarAdvertencia("Información Incompleta", "Usuario Requerido", "Por favor, ingrese su nombre de usuario para iniciar sesión.");
             inputUsuario.requestFocusInput();
             return false;
         }
 
         if (pass.isEmpty()) {
             mostrarError("Por favor, ingrese su contraseña.");
+            AlertUtil.mostrarAdvertencia("Información Incompleta", "Contraseña Requerida", "Por favor, ingrese su contraseña para iniciar sesión.");
             inputPassword.requestFocusInput();
             return false;
         }

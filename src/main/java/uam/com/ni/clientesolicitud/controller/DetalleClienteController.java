@@ -2,6 +2,7 @@ package uam.com.ni.clientesolicitud.controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -9,12 +10,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import uam.com.ni.clientesolicitud.model.Cliente;
-import uam.com.ni.clientesolicitud.model.DataStore;
-import uam.com.ni.clientesolicitud.util.AlertUtil;
 import uam.com.ni.clientesolicitud.util.AppRoutes;
 import uam.com.ni.clientesolicitud.util.SceneNavigator;
-
-import java.util.Optional;
 
 public class DetalleClienteController {
 
@@ -81,30 +78,16 @@ public class DetalleClienteController {
     }
 
     @FXML
-    private void onEditarConDialogAction() {
-        Optional<String> nuevaNota = AlertUtil.mostrarDialogoTexto(
-                "Añadir Nota a la Solicitud",
-                "Actualizar notas de expediente para " + clienteActual.getNombreCompleto(),
-                "Ingrese el nuevo comentario u observación:",
-                txtObservaciones.getText()
+    private void onEditarClienteAction() {
+        if (clienteActual == null) return;
+        FXMLLoader loader = SceneNavigator.cambiarPantalla(
+                btnVolverConsulta,
+                AppRoutes.REGISTRO,
+                "Edición de Cliente - " + clienteActual.getNombreCompleto()
         );
-
-        nuevaNota.ifPresent(nota -> {
-            txtObservaciones.setText(nota);
-            if (clienteActual != null) {
-                clienteActual.setObservaciones(nota);
-                DataStore.actualizarCliente(clienteActual);
-                AlertUtil.mostrarInfo("Actualización", "Nota Guardada", "La observación del cliente ha sido actualizada.");
-            }
-        });
-    }
-
-    @FXML
-    private void onGuardarCambiosAction() {
-        if (clienteActual != null) {
-            clienteActual.setObservaciones(txtObservaciones.getText());
-            DataStore.actualizarCliente(clienteActual);
-            AlertUtil.mostrarInfo("Cambios Guardados", "Expediente Actualizado", "Los cambios en las observaciones del cliente fueron guardados exitosamente.");
+        if (loader != null) {
+            RegistroClienteController controller = loader.getController();
+            controller.setClienteAEditar(clienteActual);
         }
     }
 

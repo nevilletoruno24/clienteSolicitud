@@ -39,13 +39,17 @@
                 <CustomInput fx:id="inputPassword" labelText="Contraseña" promptText="••••••••" isPassword="true"/>
             </VBox>
 
-            <Button defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#onIniciarSesionAction"
-                    prefHeight="42.0" text="Iniciar Sesión"
-                    style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #2563EB; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;">
+            <HBox spacing="12.0">
                 <VBox.margin>
                     <Insets top="8.0"/>
                 </VBox.margin>
-            </Button>
+                <Button cancelButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#onSalirAction"
+                        prefHeight="42.0" text="Salir" HBox.hgrow="ALWAYS"
+                        style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #FFFFFF; -fx-border-color: #CBD5E1; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-text-fill: #475569; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                <Button defaultButton="true" maxWidth="Infinity" mnemonicParsing="false" onAction="#onIniciarSesionAction"
+                        prefHeight="42.0" text="Iniciar Sesión" HBox.hgrow="ALWAYS"
+                        style="-fx-font-family: 'Segoe UI', -apple-system, sans-serif; -fx-background-color: #2563EB; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+            </HBox>
 
             <HBox fx:id="boxError" alignment="CENTER_LEFT" managed="false" spacing="10.0" visible="false"
                   style="-fx-background-color: #FEF2F2; -fx-border-color: #FECACA; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 10px 14px;">
