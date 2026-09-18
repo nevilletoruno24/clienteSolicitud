@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -55,9 +54,7 @@ public class MenuPrincipalController {
 
         Platform.runLater(() -> {
             if (cardTotal != null && cardTotal.getScene() != null) {
-                cardTotal.getScene().setOnContextMenuRequested(e -> {
-                    contextMenu.show(cardTotal.getScene().getWindow(), e.getScreenX(), e.getScreenY());
-                });
+                cardTotal.getScene().setOnContextMenuRequested(e -> contextMenu.show(cardTotal.getScene().getWindow(), e.getScreenX(), e.getScreenY()));
             }
         });
     }
@@ -152,9 +149,7 @@ public class MenuPrincipalController {
                 "Atención prioritaria a solicitudes de crédito hoy."
         );
 
-        respuesta.ifPresent(nota -> {
-            AlertUtil.mostrarInfo("Recordatorio Guardado", "Nota registrada", "Mensaje: \"" + nota + "\"");
-        });
+        respuesta.ifPresent(nota -> AlertUtil.mostrarInfo("Recordatorio Guardado", "Nota registrada", "Mensaje: \"" + nota + "\""));
     }
 
     @FXML
@@ -170,14 +165,14 @@ public class MenuPrincipalController {
                     event,
                     "login-view.fxml",
                     "Sistema de Clientes - Inicio de Sesión",
-                    500,
-                    360
+                    580,
+                    560
             );
         }
     }
 
     @FXML
-    private void onSalirAction(ActionEvent event) {
+    private void onSalirAction() {
         boolean confirmar = AlertUtil.mostrarConfirmacion(
                 "Salir del Sistema",
                 "¿Desea cerrar la aplicación?",
@@ -190,7 +185,7 @@ public class MenuPrincipalController {
     }
 
     @FXML
-    private void onAcercaDeAction(ActionEvent event) {
+    private void onAcercaDeAction() {
         AlertUtil.mostrarInfo(
                 "Acerca de la Aplicación",
                 "Sistema de Registro y Solicitudes de Clientes v1.0",

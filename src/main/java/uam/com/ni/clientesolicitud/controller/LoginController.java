@@ -1,15 +1,12 @@
 package uam.com.ni.clientesolicitud.controller;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
-import uam.com.ni.clientesolicitud.util.AlertUtil;
+import javafx.scene.layout.HBox;
 import uam.com.ni.clientesolicitud.util.NavigationUtil;
 
 public class LoginController {
@@ -21,59 +18,60 @@ public class LoginController {
     private PasswordField txtPassword;
 
     @FXML
-    private Button btnIniciarSesion;
+    private HBox boxError;
 
     @FXML
-    private Button btnSalir;
+    private Label lblError;
+
+    private boolean navegando = false;
 
     @FXML
     public void initialize() {
-        txtPassword.setOnKeyPressed(this::manejarTeclaPassword);
+        // Navegación por teclado: Enter en usuario pasa el foco a contraseña
         txtUsuario.setOnKeyPressed(this::manejarTeclaUsuario);
-    }
 
-    private void manejarTeclaPassword(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            btnIniciarSesion.fire();
-        } else if (event.getCode() == KeyCode.ESCAPE) {
-            btnSalir.fire();
-        }
+        // Ocultar mensaje de error al teclear
+        txtUsuario.textProperty().addListener((obs, oldV, newV) -> ocultarError());
+        txtPassword.textProperty().addListener((obs, oldV, newV) -> ocultarError());
     }
 
     private void manejarTeclaUsuario(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             txtPassword.requestFocus();
-        } else if (event.getCode() == KeyCode.ESCAPE) {
-            btnSalir.fire();
         }
     }
 
     @FXML
-    private void onIniciarSesionAction(ActionEvent event) {
+    private void onIniciarSesionAction() {
+        if (navegando) {
+            return;
+        }
+
         String usuario = txtUsuario.getText() != null ? txtUsuario.getText().trim() : "";
         String pass = txtPassword.getText() != null ? txtPassword.getText().trim() : "";
 
-        // Validación de campos vacíos requerida
-        if (usuario.isEmpty() || pass.isEmpty()) {
-            AlertUtil.mostrarAdvertencia(
-                    "Campos Incompletos",
-                    "No se puede iniciar sesión",
-                    "Por favor, complete tanto el usuario como la contraseña para ingresar al sistema."
-            );
+        // Validación de campos obligatorios
+        if (usuario.isEmpty()) {
+            mostrarError("Por favor, ingrese su nombre de usuario para continuar.");
+            txtUsuario.requestFocus();
             return;
         }
 
-        // Validación de credenciales: admin/admin123 o cualquier usuario con clave correspondiente
+        if (pass.isEmpty()) {
+            mostrarError("Por favor, ingrese su contraseña.");
+            txtPassword.requestFocus();
+            return;
+        }
+
+        // Validación de credenciales
         if (usuario.equalsIgnoreCase("admin") && !pass.equals("admin123")) {
-            AlertUtil.mostrarError(
-                    "Acceso Denegado",
-                    "Contraseña incorrecta",
-                    "Para el usuario 'admin' la contraseña es: admin123"
-            );
+            mostrarError("Contraseña incorrecta. Verifique sus credenciales.");
+            txtPassword.requestFocus();
             return;
         }
 
-        // Abrir la ventana principal mediante NavigationUtil simplificado
+        navegando = true;
+        ocultarError();
         NavigationUtil.cambiarEscena(
                 txtUsuario,
                 "menu-principal-view.fxml",
@@ -83,16 +81,18 @@ public class LoginController {
         );
     }
 
-    @FXML
-    private void onSalirAction(ActionEvent event) {
-        boolean confirmar = AlertUtil.mostrarConfirmacion(
-                "Confirmación de Salida",
-                "¿Desea salir de la aplicación?",
-                "Se cerrará el sistema de registro y solicitudes."
-        );
+    private void mostrarError(String mensaje) {
+        if (lblError != null && boxError != null) {
+            lblError.setText(mensaje);
+            boxError.setVisible(true);
+            boxError.setManaged(true);
+        }
+    }
 
-        if (confirmar) {
-            Platform.exit();
+    private void ocultarError() {
+        if (boxError != null && boxError.isVisible()) {
+            boxError.setVisible(false);
+            boxError.setManaged(false);
         }
     }
 }

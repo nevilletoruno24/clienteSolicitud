@@ -8,101 +8,63 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.IOException;
-
-/**
- * Utilería centralizada para la navegación y transición entre ventanas en JavaFX.
- * Facilita el cambio de vistas y la transferencia de datos entre controladores sin código duplicado.
- */
 public class NavigationUtil {
 
-    public static final String VIEW_BASE = "/uam/com/ni/clientesolicitud/view/";
+    private static final String RUTA_BASE = "/uam/com/ni/clientesolicitud/view/";
 
-    /**
-     * Resuelve la ruta completa del FXML dentro de la carpeta view/.
-     */
-    private static String resolverRuta(String vista) {
-        if (vista == null || vista.trim().isEmpty()) {
-            return VIEW_BASE;
-        }
-        if (vista.startsWith("/")) {
-            return vista;
-        }
-        return VIEW_BASE + vista;
-    }
-
-    /**
-     * Obtiene el Stage activo a partir de un Event o de las ventanas visibles.
-     */
     public static Stage obtenerStageActivo(Event event) {
-        if (event != null && event.getSource() instanceof Node) {
-            Scene scene = ((Node) event.getSource()).getScene();
-            if (scene != null && scene.getWindow() instanceof Stage) {
-                return (Stage) scene.getWindow();
-            }
+        if (event != null && event.getSource() instanceof Node node && node.getScene() != null) {
+            return (Stage) node.getScene().getWindow();
         }
-        for (Window window : Window.getWindows()) {
-            if (window instanceof Stage && window.isShowing()) {
-                return (Stage) window;
+        for (Window w : Window.getWindows()) {
+            if (w instanceof Stage s && s.isShowing()) {
+                return s;
             }
         }
         return null;
     }
 
-    /**
-     * Obtiene el Stage a partir de un nodo de la interfaz.
-     */
-    public static Stage obtenerStageDeNodo(Node nodo) {
-        if (nodo != null && nodo.getScene() != null && nodo.getScene().getWindow() instanceof Stage) {
-            return (Stage) nodo.getScene().getWindow();
-        }
-        return obtenerStageActivo(null);
-    }
-
-    /**
-     * Carga y cambia la escena a partir de un nodo visual de origen.
-     */
-    public static FXMLLoader cambiarEscena(Node nodoOrigen, String fxmlName, String titulo, int ancho, int alto) {
-        Stage stage = obtenerStageDeNodo(nodoOrigen);
-        return cambiarEscena(stage, fxmlName, titulo, ancho, alto);
-    }
-
-    /**
-     * Carga y cambia la escena a partir de un evento.
-     */
-    public static FXMLLoader cambiarEscena(Event event, String fxmlName, String titulo, int ancho, int alto) {
-        Stage stage = obtenerStageActivo(event);
-        return cambiarEscena(stage, fxmlName, titulo, ancho, alto);
-    }
-
-    /**
-     * Carga una vista en el Stage indicado, actualiza escena y título, y retorna el FXMLLoader
-     * para permitir el paso de datos al controlador de destino.
-     */
-    public static FXMLLoader cambiarEscena(Stage stage, String fxmlName, String titulo, int ancho, int alto) {
-        String rutaCompleta = resolverRuta(fxmlName);
+    public static FXMLLoader cambiarEscena(Object origen, String vista, String titulo, int ancho, int alto) {
         try {
-            if (stage == null) {
-                stage = obtenerStageActivo(null);
-                if (stage == null) {
-                    stage = new Stage();
-                }
+            Stage stage = null;
+            if (origen instanceof Node node && node.getScene() != null) {
+                stage = (Stage) node.getScene().getWindow();
+            } else if (origen instanceof Event event) {
+                stage = obtenerStageActivo(event);
+            } else if (origen instanceof Stage s) {
+                stage = s;
             }
 
-            FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(rutaCompleta));
+            if (stage == null) {
+                stage = obtenerStageActivo(null);
+            }
+            if (stage == null) {
+                stage = new Stage();
+            }
+
+            String ruta = vista.startsWith("/") ? vista : RUTA_BASE + vista;
+            FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(ruta));
             Parent root = loader.load();
 
-            Scene scene = new Scene(root, ancho, alto);
             stage.setTitle(titulo);
-            stage.setScene(scene);
+
+            Scene scene = stage.getScene();
+            if (scene == null) {
+                stage.setScene(new Scene(root, ancho, alto));
+            } else {
+                scene.setRoot(root);
+                stage.setWidth(ancho);
+                stage.setHeight(alto);
+            }
+
             stage.centerOnScreen();
-            stage.show();
+            if (!stage.isShowing()) {
+                stage.show();
+            }
+
             return loader;
-        } catch (Throwable e) {
-            System.err.println("=== ERROR EN NAVIGATION UTIL ===");
-            System.err.println("Fallo al cargar la vista: " + rutaCompleta);
-            e.printStackTrace();
-            AlertUtil.mostrarError("Error de Navegación", "No se pudo cargar la vista: " + rutaCompleta, e.getMessage() != null ? e.getMessage() : e.toString());
+        } catch (Exception e) {
+            AlertUtil.mostrarError("Error de Navegación", "No se pudo cargar la vista solicitada.", e.getMessage());
             return null;
         }
     }
