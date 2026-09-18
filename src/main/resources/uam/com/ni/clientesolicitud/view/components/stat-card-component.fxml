@@ -5,12 +5,10 @@
 <?import javafx.scene.text.Font?>
 
 <fx:root alignment="CENTER" spacing="5.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label fx:id="lblTituloMetrica" text="Métrica" />
-      <Label fx:id="lblValorMetrica" text="0">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-      </Label>
-   </children>
+   <Label fx:id="lblTituloMetrica" text="Métrica" />
+   <Label fx:id="lblValorMetrica" text="0">
+      <font>
+         <Font name="System Bold" size="22.0" />
+      </font>
+   </Label>
 </fx:root>

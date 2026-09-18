@@ -2,24 +2,22 @@ package uam.com.ni.clientesolicitud.controller;
 
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import uam.com.ni.clientesolicitud.model.Cliente;
 import uam.com.ni.clientesolicitud.model.DataStore;
 import uam.com.ni.clientesolicitud.util.AlertUtil;
-import uam.com.ni.clientesolicitud.util.NavigationUtil;
-
-import java.io.IOException;
+import uam.com.ni.clientesolicitud.util.AppRoutes;
+import uam.com.ni.clientesolicitud.util.SceneNavigator;
 
 public class ConsultaClientesController {
 
@@ -123,14 +121,14 @@ public class ConsultaClientesController {
                 abrirDetalleCliente(seleccionado);
             }
         } else if (event.getCode() == KeyCode.DELETE) {
-            onEliminarClienteAction(null);
+            onEliminarClienteAction();
         } else if (event.getCode() == KeyCode.ESCAPE) {
-            onVolverMenuAction(null);
+            onVolverMenuAction();
         }
     }
 
     @FXML
-    private void onVerDetalleAction(ActionEvent event) {
+    private void onVerDetalleAction() {
         Cliente seleccionado = tblClientes.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
             AlertUtil.mostrarAdvertencia(
@@ -147,12 +145,10 @@ public class ConsultaClientesController {
      * Demostración requerida del paso de datos entre ventanas.
      */
     private void abrirDetalleCliente(Cliente cliente) {
-        FXMLLoader loader = NavigationUtil.cambiarEscena(
+        FXMLLoader loader = SceneNavigator.cambiarPantalla(
                 tblClientes,
-                "detalle-view.fxml",
-                "Detalle de Cliente y Solicitud - " + cliente.getNombreCompleto(),
-                800,
-                600
+                AppRoutes.DETALLE,
+                "Detalle de Cliente y Solicitud - " + cliente.getNombreCompleto()
         );
         if (loader != null) {
             DetalleClienteController controller = loader.getController();
@@ -161,18 +157,16 @@ public class ConsultaClientesController {
     }
 
     @FXML
-    private void onNuevoClienteAction(ActionEvent event) {
-        NavigationUtil.cambiarEscena(
+    private void onNuevoClienteAction() {
+        SceneNavigator.cambiarPantalla(
                 tblClientes,
-                "registro-view.fxml",
-                "Registro de Clientes y Solicitudes",
-                750,
-                650
+                AppRoutes.REGISTRO,
+                "Registro de Clientes y Solicitudes"
         );
     }
 
     @FXML
-    private void onEliminarClienteAction(ActionEvent event) {
+    private void onEliminarClienteAction() {
         Cliente seleccionado = tblClientes.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
             AlertUtil.mostrarAdvertencia(
@@ -197,13 +191,11 @@ public class ConsultaClientesController {
     }
 
     @FXML
-    private void onVolverMenuAction(ActionEvent event) {
-        NavigationUtil.cambiarEscena(
+    private void onVolverMenuAction() {
+        SceneNavigator.cambiarPantalla(
                 tblClientes,
-                "menu-principal-view.fxml",
-                "Sistema de Registro y Solicitudes - Menú Principal",
-                800,
-                600
+                AppRoutes.MENU_PRINCIPAL,
+                "Sistema de Registro y Solicitudes - Menú Principal"
         );
     }
 }

@@ -1,7 +1,6 @@
 package uam.com.ni.clientesolicitud.controller;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,11 +8,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import uam.com.ni.clientesolicitud.model.Cliente;
 import uam.com.ni.clientesolicitud.model.DataStore;
 import uam.com.ni.clientesolicitud.util.AlertUtil;
-import uam.com.ni.clientesolicitud.util.NavigationUtil;
+import uam.com.ni.clientesolicitud.util.AppRoutes;
+import uam.com.ni.clientesolicitud.util.SceneNavigator;
 
 import java.util.Optional;
 
@@ -52,12 +51,6 @@ public class DetalleClienteController {
     @FXML
     private Button btnVolverConsulta;
 
-    @FXML
-    private Button btnEditarObservacion;
-
-    @FXML
-    private Button btnGuardarCambios;
-
     private Cliente clienteActual;
 
     /**
@@ -94,7 +87,7 @@ public class DetalleClienteController {
     }
 
     @FXML
-    private void onEditarConDialogAction(ActionEvent event) {
+    private void onEditarConDialogAction() {
         // Uso de Dialog (TextInputDialog) para agregar o editar notas
         Optional<String> nuevaNota = AlertUtil.mostrarDialogoTexto(
                 "Añadir Nota a la Solicitud",
@@ -114,7 +107,7 @@ public class DetalleClienteController {
     }
 
     @FXML
-    private void onGuardarCambiosAction(ActionEvent event) {
+    private void onGuardarCambiosAction() {
         if (clienteActual != null) {
             clienteActual.setObservaciones(txtObservaciones.getText());
             DataStore.actualizarCliente(clienteActual);
@@ -123,13 +116,11 @@ public class DetalleClienteController {
     }
 
     @FXML
-    private void onVolverConsultaAction(ActionEvent event) {
-        NavigationUtil.cambiarEscena(
+    private void onVolverConsultaAction() {
+        SceneNavigator.cambiarPantalla(
                 btnVolverConsulta,
-                "consulta-view.fxml",
-                "Consulta y Administración de Clientes",
-                950,
-                650
+                AppRoutes.CONSULTA,
+                "Consulta y Administración de Clientes"
         );
     }
 }

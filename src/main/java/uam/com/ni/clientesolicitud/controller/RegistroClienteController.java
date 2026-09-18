@@ -1,7 +1,6 @@
 package uam.com.ni.clientesolicitud.controller;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,7 +11,8 @@ import javafx.stage.Stage;
 import uam.com.ni.clientesolicitud.model.Cliente;
 import uam.com.ni.clientesolicitud.model.DataStore;
 import uam.com.ni.clientesolicitud.util.AlertUtil;
-import uam.com.ni.clientesolicitud.util.NavigationUtil;
+import uam.com.ni.clientesolicitud.util.AppRoutes;
+import uam.com.ni.clientesolicitud.util.SceneNavigator;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -43,15 +43,6 @@ public class RegistroClienteController {
     private RadioButton rbCredito;
 
     @FXML
-    private RadioButton rbCuenta;
-
-    @FXML
-    private RadioButton rbReclamo;
-
-    @FXML
-    private RadioButton rbSoporte;
-
-    @FXML
     private CheckBox chkBancaLinea;
 
     @FXML
@@ -74,9 +65,6 @@ public class RegistroClienteController {
 
     @FXML
     private Button btnGuardar;
-
-    @FXML
-    private Button btnLimpiar;
 
     @FXML
     private Button btnCancelar;
@@ -109,7 +97,7 @@ public class RegistroClienteController {
     }
 
     @FXML
-    private void onSeleccionarFotoAction(ActionEvent event) {
+    private void onSeleccionarFotoAction() {
         // FileChooser para seleccionar una fotografía
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar Fotografía del Cliente");
@@ -133,7 +121,7 @@ public class RegistroClienteController {
     }
 
     @FXML
-    private void onGuardarAction(ActionEvent event) {
+    private void onGuardarAction() {
         String nombres = txtNombres.getText() != null ? txtNombres.getText().trim() : "";
         String apellidos = txtApellidos.getText() != null ? txtApellidos.getText().trim() : "";
         String tipoCliente = cmbTipoCliente.getValue();
@@ -219,12 +207,10 @@ public class RegistroClienteController {
         );
 
         if (irAConsulta) {
-            NavigationUtil.cambiarEscena(
+            SceneNavigator.cambiarPantalla(
                     btnGuardar,
-                    "consulta-view.fxml",
-                    "Consulta y Administración de Clientes",
-                    950,
-                    650
+                    AppRoutes.CONSULTA,
+                    "Consulta y Administración de Clientes"
             );
         } else {
             limpiarFormulario();
@@ -232,7 +218,7 @@ public class RegistroClienteController {
     }
 
     @FXML
-    private void onLimpiarAction(ActionEvent event) {
+    private void onLimpiarAction() {
         limpiarFormulario();
     }
 
@@ -254,13 +240,11 @@ public class RegistroClienteController {
     }
 
     @FXML
-    private void onCancelarAction(ActionEvent event) {
-        NavigationUtil.cambiarEscena(
+    private void onCancelarAction() {
+        SceneNavigator.cambiarPantalla(
                 btnCancelar,
-                "menu-principal-view.fxml",
-                "Sistema de Registro y Solicitudes - Menú Principal",
-                900,
-                650
+                AppRoutes.MENU_PRINCIPAL,
+                "Sistema de Registro y Solicitudes - Menú Principal"
         );
     }
 }

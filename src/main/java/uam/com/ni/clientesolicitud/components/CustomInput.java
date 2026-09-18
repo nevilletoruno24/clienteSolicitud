@@ -12,6 +12,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 
+@SuppressWarnings("unused")
 public class CustomInput extends VBox {
 
     @FXML
@@ -44,9 +45,9 @@ public class CustomInput extends VBox {
         }
 
         txtInput.textProperty().bindBidirectional(txtPassword.textProperty());
+        btnTogglePassword.setOnAction(event -> onTogglePassword());
     }
 
-    @FXML
     private void onTogglePassword() {
         passwordVisible = !passwordVisible;
         if (passwordVisible) {
@@ -89,10 +90,6 @@ public class CustomInput extends VBox {
                 btnTogglePassword.setManaged(false);
             }
         }
-    }
-
-    public boolean getIsPassword() {
-        return isPassword;
     }
 
     public void setLabelText(String value) {
@@ -142,13 +139,5 @@ public class CustomInput extends VBox {
 
     public StringProperty textProperty() {
         return txtInput.textProperty();
-    }
-
-    public TextField getTextField() {
-        return txtInput;
-    }
-
-    public PasswordField getPasswordField() {
-        return txtPassword;
     }
 }

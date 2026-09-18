@@ -3,18 +3,18 @@ package uam.com.ni.clientesolicitud.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.Node;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import uam.com.ni.clientesolicitud.components.StatCardComponent;
-import uam.com.ni.clientesolicitud.model.Cliente;
 import uam.com.ni.clientesolicitud.model.DataStore;
 import uam.com.ni.clientesolicitud.util.AlertUtil;
+import uam.com.ni.clientesolicitud.util.AppRoutes;
+import uam.com.ni.clientesolicitud.util.CsvExportUtil;
 import uam.com.ni.clientesolicitud.util.NavigationUtil;
+import uam.com.ni.clientesolicitud.util.SceneNavigator;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,30 +37,12 @@ public class MenuPrincipalController {
     @FXML
     public void initialize() {
         actualizarEstadisticas();
-        configurarMenuContextual();
-    }
-
-    private void configurarMenuContextual() {
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem miNuevo = new MenuItem("Registrar Nuevo Cliente");
-        miNuevo.setOnAction(this::onRegistrarClienteAction);
-        MenuItem miConsultar = new MenuItem("Consultar Catálogo de Clientes");
-        miConsultar.setOnAction(this::onConsultarClientesAction);
-        MenuItem miExportar = new MenuItem("Exportar Catálogo a Carpeta...");
-        miExportar.setOnAction(this::onExportarDirectorioAction);
-        MenuItem miNota = new MenuItem("Registrar Nota Rápida (Dialog)...");
-        miNota.setOnAction(this::onNotaRapidaDialogAction);
-        contextMenu.getItems().addAll(miNuevo, miConsultar, miExportar, miNota);
-
-        Platform.runLater(() -> {
-            if (cardTotal != null && cardTotal.getScene() != null) {
-                cardTotal.getScene().setOnContextMenuRequested(e -> contextMenu.show(cardTotal.getScene().getWindow(), e.getScreenX(), e.getScreenY()));
-            }
-        });
     }
 
     public void actualizarEstadisticas() {
-        if (cardTotal == null) return;
+        if (cardTotal == null) {
+            return;
+        }
         int total = DataStore.getClientes().size();
         cardTotal.setValorMetrica(String.valueOf(total));
 
@@ -74,31 +56,37 @@ public class MenuPrincipalController {
                 .filter(c -> c.getTipoSolicitud() != null && (c.getTipoSolicitud().toLowerCase().contains("reclamo") || c.getTipoSolicitud().toLowerCase().contains("soporte")))
                 .count();
 
-        if (cardCreditos != null) cardCreditos.setValorMetrica(String.valueOf(creditos));
-        if (cardCuentas != null) cardCuentas.setValorMetrica(String.valueOf(cuentas));
-        if (cardReclamos != null) cardReclamos.setValorMetrica(String.valueOf(reclamos));
+        if (cardCreditos != null) {
+            cardCreditos.setValorMetrica(String.valueOf(creditos));
+        }
+        if (cardCuentas != null) {
+            cardCuentas.setValorMetrica(String.valueOf(cuentas));
+        }
+        if (cardReclamos != null) {
+            cardReclamos.setValorMetrica(String.valueOf(reclamos));
+        }
     }
 
     @FXML
     private void onRegistrarClienteAction(ActionEvent event) {
-        NavigationUtil.cambiarEscena(
-                event,
-                "registro-view.fxml",
-                "Registro de Clientes y Solicitudes",
-                820,
-                680
-        );
+        if (event.getSource() instanceof Node node) {
+            SceneNavigator.cambiarPantalla(
+                    node,
+                    AppRoutes.REGISTRO,
+                    "Registro de Clientes y Solicitudes"
+            );
+        }
     }
 
     @FXML
     private void onConsultarClientesAction(ActionEvent event) {
-        NavigationUtil.cambiarEscena(
-                event,
-                "consulta-view.fxml",
-                "Consulta y Administración de Clientes",
-                900,
-                600
-        );
+        if (event.getSource() instanceof Node node) {
+            SceneNavigator.cambiarPantalla(
+                    node,
+                    AppRoutes.CONSULTA,
+                    "Consulta y Administración de Clientes"
+            );
+        }
     }
 
     @FXML
@@ -113,26 +101,14 @@ public class MenuPrincipalController {
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
             File archivoReporte = new File(carpetaSeleccionada, "Reporte_Clientes_" + timestamp + ".csv");
 
-            try (FileWriter writer = new FileWriter(archivoReporte)) {
-                writer.write("ID,Nombres,Apellidos,TipoCliente,Ciudad,FechaNacimiento,TipoSolicitud,Servicios,Observaciones\n");
-                for (Cliente c : DataStore.getClientes()) {
-                    writer.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
-                            c.getId(),
-                            c.getNombres(),
-                            c.getApellidos(),
-                            c.getTipoCliente(),
-                            c.getCiudad(),
-                            c.getFechaNacimientoFormateada(),
-                            c.getTipoSolicitud(),
-                            c.getServiciosInteresTexto(),
-                            c.getObservaciones() != null ? c.getObservaciones().replace("\"", "'") : ""
-                    ));
-                }
+            try {
+                CsvExportUtil.exportarClientesACsv(archivoReporte, DataStore.getClientes());
 
                 AlertUtil.mostrarInfo(
                         "Exportación Exitosa",
-                        "Reporte generado satisfactoriamente",
-                        "El archivo fue exportado en:\n" + archivoReporte.getAbsolutePath()
+                        "Reporte generado para Microsoft Excel",
+                        "El archivo fue exportado en:\n" + archivoReporte.getAbsolutePath() +
+                        "\n\nConfigurado con codificación UTF-8 BOM y separación automática por columnas."
                 );
             } catch (IOException e) {
                 AlertUtil.mostrarError("Error al Exportar", "No se pudo escribir el archivo", e.getMessage());
@@ -141,7 +117,7 @@ public class MenuPrincipalController {
     }
 
     @FXML
-    private void onNotaRapidaDialogAction(ActionEvent event) {
+    private void onNotaRapidaDialogAction() {
         Optional<String> respuesta = AlertUtil.mostrarDialogoTexto(
                 "Nota Rápida del Sistema",
                 "Registrar mensaje de recordatorio del día",
@@ -160,13 +136,11 @@ public class MenuPrincipalController {
                 "Regresará a la pantalla de inicio de sesión."
         );
 
-        if (confirmar) {
-            NavigationUtil.cambiarEscena(
-                    event,
-                    "login-view.fxml",
-                    "Sistema de Clientes - Inicio de Sesión",
-                    580,
-                    560
+        if (confirmar && event.getSource() instanceof Node node) {
+            SceneNavigator.cambiarPantalla(
+                    node,
+                    AppRoutes.LOGIN,
+                    "Sistema de Clientes - Inicio de Sesión"
             );
         }
     }
@@ -189,7 +163,7 @@ public class MenuPrincipalController {
         AlertUtil.mostrarInfo(
                 "Acerca de la Aplicación",
                 "Sistema de Registro y Solicitudes de Clientes v1.0",
-                "Desarrollado con JavaFX y Scene Builder.\n" +
+                "Desarrollado con JavaFX.\n" +
                 "Arquitectura MVC, eventos ActionEvent, MouseEvent, KeyEvent y diálogos integrados."
         );
     }
