@@ -3,7 +3,9 @@ package uam.com.ni.clientesolicitud.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import uam.com.ni.clientesolicitud.model.Cliente;
@@ -35,6 +37,28 @@ public class MenuPrincipalController {
     @FXML
     public void initialize() {
         actualizarEstadisticas();
+        configurarMenuContextual();
+    }
+
+    private void configurarMenuContextual() {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem miNuevo = new MenuItem("Registrar Nuevo Cliente");
+        miNuevo.setOnAction(this::onRegistrarClienteAction);
+        MenuItem miConsultar = new MenuItem("Consultar Catálogo de Clientes");
+        miConsultar.setOnAction(this::onConsultarClientesAction);
+        MenuItem miExportar = new MenuItem("Exportar Catálogo a Carpeta...");
+        miExportar.setOnAction(this::onExportarDirectorioAction);
+        MenuItem miNota = new MenuItem("Registrar Nota Rápida (Dialog)...");
+        miNota.setOnAction(this::onNotaRapidaDialogAction);
+        contextMenu.getItems().addAll(miNuevo, miConsultar, miExportar, miNota);
+
+        Platform.runLater(() -> {
+            if (lblTotalClientes != null && lblTotalClientes.getScene() != null) {
+                lblTotalClientes.getScene().setOnContextMenuRequested(e -> {
+                    contextMenu.show(lblTotalClientes.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+                });
+            }
+        });
     }
 
     public void actualizarEstadisticas() {
@@ -61,7 +85,7 @@ public class MenuPrincipalController {
     private void onRegistrarClienteAction(ActionEvent event) {
         NavigationUtil.cambiarEscena(
                 event,
-                "/uam/com/ni/clientesolicitud/registro-view.fxml",
+                "registro-view.fxml",
                 "Registro de Clientes y Solicitudes",
                 820,
                 680
@@ -72,7 +96,7 @@ public class MenuPrincipalController {
     private void onConsultarClientesAction(ActionEvent event) {
         NavigationUtil.cambiarEscena(
                 event,
-                "/uam/com/ni/clientesolicitud/consulta-view.fxml",
+                "consulta-view.fxml",
                 "Consulta y Administración de Clientes",
                 900,
                 600
@@ -143,7 +167,7 @@ public class MenuPrincipalController {
         if (confirmar) {
             NavigationUtil.cambiarEscena(
                     event,
-                    "/uam/com/ni/clientesolicitud/login-view.fxml",
+                    "login-view.fxml",
                     "Sistema de Clientes - Inicio de Sesión",
                     500,
                     360

@@ -220,8 +220,8 @@ public class RegistroClienteController {
 
         if (irAConsulta) {
             NavigationUtil.cambiarEscena(
-                    (Stage) btnGuardar.getScene().getWindow(),
-                    "/uam/com/ni/clientesolicitud/consulta-view.fxml",
+                    btnGuardar,
+                    "consulta-view.fxml",
                     "Consulta y Administración de Clientes",
                     950,
                     650
@@ -256,8 +256,8 @@ public class RegistroClienteController {
     @FXML
     private void onCancelarAction(ActionEvent event) {
         NavigationUtil.cambiarEscena(
-                (Stage) btnCancelar.getScene().getWindow(),
-                "/uam/com/ni/clientesolicitud/menu-principal-view.fxml",
+                btnCancelar,
+                "menu-principal-view.fxml",
                 "Sistema de Registro y Solicitudes - Menú Principal",
                 900,
                 650

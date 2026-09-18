@@ -7,13 +7,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+
+public class App extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/uam/com/ni/clientesolicitud/view/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 500, 360);
         stage.setTitle("Sistema de Clientes y Solicitudes - Inicio de Sesión");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.centerOnScreen();
         stage.show();
     }

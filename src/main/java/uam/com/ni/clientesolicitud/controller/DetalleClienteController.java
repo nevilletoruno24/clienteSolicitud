@@ -1,9 +1,11 @@
 package uam.com.ni.clientesolicitud.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,7 +38,7 @@ public class DetalleClienteController {
     private Label lblTipoSolicitud;
 
     @FXML
-    private Label lblServicios;
+    private ListView<String> lstServicios;
 
     @FXML
     private Label lblFechaRegistro;
@@ -72,7 +74,11 @@ public class DetalleClienteController {
         lblCiudad.setText(cliente.getCiudad());
         lblFechaNacimiento.setText(cliente.getFechaNacimientoFormateada());
         lblTipoSolicitud.setText(cliente.getTipoSolicitud());
-        lblServicios.setText(cliente.getServiciosInteresTexto());
+        if (cliente.getServiciosInteres() != null && !cliente.getServiciosInteres().isEmpty()) {
+            lstServicios.setItems(FXCollections.observableArrayList(cliente.getServiciosInteres()));
+        } else {
+            lstServicios.setItems(FXCollections.observableArrayList("Sin servicios seleccionados"));
+        }
         lblFechaRegistro.setText(cliente.getFechaRegistro() != null ? cliente.getFechaRegistro().toString() : "Hoy");
         txtObservaciones.setText(cliente.getObservaciones() != null ? cliente.getObservaciones() : "");
 
@@ -119,8 +125,8 @@ public class DetalleClienteController {
     @FXML
     private void onVolverConsultaAction(ActionEvent event) {
         NavigationUtil.cambiarEscena(
-                (Stage) btnVolverConsulta.getScene().getWindow(),
-                "/uam/com/ni/clientesolicitud/consulta-view.fxml",
+                btnVolverConsulta,
+                "consulta-view.fxml",
                 "Consulta y Administración de Clientes",
                 950,
                 650

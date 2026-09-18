@@ -73,29 +73,14 @@ public class LoginController {
             return;
         }
 
-        // Abrir la ventana principal pasando el evento para resolver el Stage
-        System.out.println("Validación exitosa. Intentando cargar menú principal...");
-        Stage stage = null;
-        try {
-            stage = (Stage) txtUsuario.getScene().getWindow();
-            System.out.println("Stage obtenido correctamente.");
-        } catch (Exception e) {
-            System.err.println("Error al obtener Stage desde txtUsuario: " + e.getMessage());
-        }
-
-        try {
-            NavigationUtil.cambiarEscena(
-                    stage != null ? stage : NavigationUtil.obtenerStageActivo(event),
-                    "/uam/com/ni/clientesolicitud/menu-principal-view.fxml",
-                    "Sistema de Registro y Solicitudes - Menú Principal",
-                    850,
-                    600
-            );
-            System.out.println("Llamada a NavigationUtil.cambiarEscena completada.");
-        } catch (Exception e) {
-            System.err.println("Error crítico al intentar cambiar de escena: " + e.getMessage());
-            e.printStackTrace();
-        }
+        // Abrir la ventana principal mediante NavigationUtil simplificado
+        NavigationUtil.cambiarEscena(
+                txtUsuario,
+                "menu-principal-view.fxml",
+                "Sistema de Registro y Solicitudes - Menú Principal",
+                850,
+                600
+        );
     }
 
     @FXML

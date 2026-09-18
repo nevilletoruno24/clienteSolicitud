@@ -147,31 +147,24 @@ public class ConsultaClientesController {
      * Demostración requerida del paso de datos entre ventanas.
      */
     private void abrirDetalleCliente(Cliente cliente) {
-        try {
-            Stage stage = (Stage) tblClientes.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/uam/com/ni/clientesolicitud/detalle-view.fxml"));
-            Parent root = loader.load();
-
-            // Transferencia de datos al controlador de detalle
+        FXMLLoader loader = NavigationUtil.cambiarEscena(
+                tblClientes,
+                "detalle-view.fxml",
+                "Detalle de Cliente y Solicitud - " + cliente.getNombreCompleto(),
+                800,
+                600
+        );
+        if (loader != null) {
             DetalleClienteController controller = loader.getController();
             controller.setCliente(cliente);
-
-            Scene scene = new Scene(root, 800, 600);
-            stage.setTitle("Detalle de Cliente y Solicitud - " + cliente.getNombreCompleto());
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            AlertUtil.mostrarError("Error al Abrir Detalle", "No se pudo cargar la vista de detalle", e.getMessage());
         }
     }
 
     @FXML
     private void onNuevoClienteAction(ActionEvent event) {
         NavigationUtil.cambiarEscena(
-                (Stage) tblClientes.getScene().getWindow(),
-                "/uam/com/ni/clientesolicitud/registro-view.fxml",
+                tblClientes,
+                "registro-view.fxml",
                 "Registro de Clientes y Solicitudes",
                 750,
                 650
@@ -206,8 +199,8 @@ public class ConsultaClientesController {
     @FXML
     private void onVolverMenuAction(ActionEvent event) {
         NavigationUtil.cambiarEscena(
-                (Stage) tblClientes.getScene().getWindow(),
-                "/uam/com/ni/clientesolicitud/menu-principal-view.fxml",
+                tblClientes,
+                "menu-principal-view.fxml",
                 "Sistema de Registro y Solicitudes - Menú Principal",
                 800,
                 600
