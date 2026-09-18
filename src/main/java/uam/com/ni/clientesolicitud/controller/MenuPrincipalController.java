@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import uam.com.ni.clientesolicitud.components.StatCardComponent;
 import uam.com.ni.clientesolicitud.model.Cliente;
 import uam.com.ni.clientesolicitud.model.DataStore;
 import uam.com.ni.clientesolicitud.util.AlertUtil;
@@ -23,16 +24,16 @@ import java.util.Optional;
 public class MenuPrincipalController {
 
     @FXML
-    private Label lblTotalClientes;
+    private StatCardComponent cardTotal;
 
     @FXML
-    private Label lblCreditos;
+    private StatCardComponent cardCreditos;
 
     @FXML
-    private Label lblCuentas;
+    private StatCardComponent cardCuentas;
 
     @FXML
-    private Label lblReclamos;
+    private StatCardComponent cardReclamos;
 
     @FXML
     public void initialize() {
@@ -53,18 +54,18 @@ public class MenuPrincipalController {
         contextMenu.getItems().addAll(miNuevo, miConsultar, miExportar, miNota);
 
         Platform.runLater(() -> {
-            if (lblTotalClientes != null && lblTotalClientes.getScene() != null) {
-                lblTotalClientes.getScene().setOnContextMenuRequested(e -> {
-                    contextMenu.show(lblTotalClientes.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+            if (cardTotal != null && cardTotal.getScene() != null) {
+                cardTotal.getScene().setOnContextMenuRequested(e -> {
+                    contextMenu.show(cardTotal.getScene().getWindow(), e.getScreenX(), e.getScreenY());
                 });
             }
         });
     }
 
     public void actualizarEstadisticas() {
-        if (lblTotalClientes == null) return;
+        if (cardTotal == null) return;
         int total = DataStore.getClientes().size();
-        lblTotalClientes.setText(String.valueOf(total));
+        cardTotal.setValorMetrica(String.valueOf(total));
 
         long creditos = DataStore.getClientes().stream()
                 .filter(c -> c.getTipoSolicitud() != null && c.getTipoSolicitud().toLowerCase().contains("crédito"))
@@ -76,9 +77,9 @@ public class MenuPrincipalController {
                 .filter(c -> c.getTipoSolicitud() != null && (c.getTipoSolicitud().toLowerCase().contains("reclamo") || c.getTipoSolicitud().toLowerCase().contains("soporte")))
                 .count();
 
-        if (lblCreditos != null) lblCreditos.setText(String.valueOf(creditos));
-        if (lblCuentas != null) lblCuentas.setText(String.valueOf(cuentas));
-        if (lblReclamos != null) lblReclamos.setText(String.valueOf(reclamos));
+        if (cardCreditos != null) cardCreditos.setValorMetrica(String.valueOf(creditos));
+        if (cardCuentas != null) cardCuentas.setValorMetrica(String.valueOf(cuentas));
+        if (cardReclamos != null) cardReclamos.setValorMetrica(String.valueOf(reclamos));
     }
 
     @FXML

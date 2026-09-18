@@ -17,6 +17,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import uam.com.ni.clientesolicitud.components.HeaderComponent?>
+<?import uam.com.ni.clientesolicitud.components.FooterComponent?>
+<?import uam.com.ni.clientesolicitud.components.StatCardComponent?>
 
 <BorderPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uam.com.ni.clientesolicitud.controller.MenuPrincipalController">
    <top>
@@ -57,20 +60,7 @@
                   <Button mnemonicParsing="false" onAction="#onCerrarSesionAction" text="Cerrar Sesión" />
                </items>
             </ToolBar>
-            <VBox spacing="4.0">
-               <children>
-                  <Label text="Menú Principal - Gestión de Clientes y Solicitudes">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-                  <Label text="Utilice los botones, la barra de menús o haga clic derecho para el menú contextual." />
-                  <Separator />
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="15.0" right="15.0" top="10.0" />
-               </padding>
-            </VBox>
+            <HeaderComponent titulo="Menú Principal - Gestión de Clientes y Solicitudes" subtitulo="Utilice los botones, la barra de menús o haga clic derecho para el menú contextual." />
          </children>
       </VBox>
    </top>
@@ -93,46 +83,10 @@
                 <RowConstraints prefHeight="70.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <VBox alignment="CENTER" spacing="5.0">
-                     <children>
-                        <Label text="Total Clientes" />
-                        <Label fx:id="lblTotalClientes" text="3">
-                           <font>
-                              <Font name="System Bold" size="22.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="1">
-                     <children>
-                        <Label text="Créditos" />
-                        <Label fx:id="lblCreditos" text="1">
-                           <font>
-                              <Font name="System Bold" size="22.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="2">
-                     <children>
-                        <Label text="Cuentas" />
-                        <Label fx:id="lblCuentas" text="1">
-                           <font>
-                              <Font name="System Bold" size="22.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="3">
-                     <children>
-                        <Label text="Reclamos/Soporte" />
-                        <Label fx:id="lblReclamos" text="1">
-                           <font>
-                              <Font name="System Bold" size="22.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
+                  <StatCardComponent fx:id="cardTotal" tituloMetrica="Total Clientes" valorMetrica="3" />
+                  <StatCardComponent fx:id="cardCreditos" tituloMetrica="Créditos" valorMetrica="1" GridPane.columnIndex="1" />
+                  <StatCardComponent fx:id="cardCuentas" tituloMetrica="Cuentas" valorMetrica="1" GridPane.columnIndex="2" />
+                  <StatCardComponent fx:id="cardReclamos" tituloMetrica="Reclamos/Soporte" valorMetrica="1" GridPane.columnIndex="3" />
                </children>
             </GridPane>
             <Separator />
@@ -159,18 +113,6 @@
       </VBox>
    </center>
    <bottom>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <Separator />
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
-               <children>
-                  <Label text="Sesión iniciada: Administrador | Clic derecho para menú contextual" />
-               </children>
-               <padding>
-                  <Insets bottom="6.0" left="15.0" right="15.0" top="6.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
+      <FooterComponent mensaje="Sesión iniciada: Administrador | Clic derecho para menú contextual" />
    </bottom>
 </BorderPane>

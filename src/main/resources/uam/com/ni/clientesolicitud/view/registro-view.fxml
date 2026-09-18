@@ -21,23 +21,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import uam.com.ni.clientesolicitud.components.HeaderComponent?>
 
 <BorderPane prefHeight="650.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uam.com.ni.clientesolicitud.controller.RegistroClienteController">
    <top>
-      <VBox spacing="4.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Registro de Cliente y Solicitud">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <Label text="Complete la información requerida en cada sección del formulario." />
-            <Separator />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="15.0" right="15.0" top="10.0" />
-         </padding>
-      </VBox>
+      <HeaderComponent titulo="Registro de Cliente y Solicitud" subtitulo="Complete la información requerida en cada sección del formulario." />
    </top>
    <center>
       <ScrollPane fitToWidth="true">

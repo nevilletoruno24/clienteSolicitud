@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root type="javafx.scene.layout.VBox" alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Separator />
+      <HBox fx:id="boxContenedor" alignment="CENTER" spacing="10.0">
+         <children>
+            <Label fx:id="lblMensaje" text="UAM - Prácticas POO" />
+         </children>
+         <padding>
+            <Insets bottom="6.0" left="15.0" right="15.0" top="6.0" />
+         </padding>
+      </HBox>
+   </children>
+</fx:root>
