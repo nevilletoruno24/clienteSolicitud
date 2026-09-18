@@ -55,7 +55,6 @@ public class ConsultaClientesController {
 
     @FXML
     public void initialize() {
-        // Configurar columnas con PropertyValueFactory
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombreCompleto.setCellValueFactory(new PropertyValueFactory<>("nombreCompleto"));
         colTipoCliente.setCellValueFactory(new PropertyValueFactory<>("tipoCliente"));
@@ -64,7 +63,6 @@ public class ConsultaClientesController {
         colTipoSolicitud.setCellValueFactory(new PropertyValueFactory<>("tipoSolicitud"));
         colServicios.setCellValueFactory(new PropertyValueFactory<>("serviciosInteresTexto"));
 
-        // Enlazar datos con FilteredList para búsqueda dinámica
         clientesFiltrados = new FilteredList<>(DataStore.getClientes(), b -> true);
 
         txtBuscar.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -88,10 +86,7 @@ public class ConsultaClientesController {
 
         actualizarContador();
 
-        // Evento MouseEvent: Doble clic en una fila del TableView para ver detalle
         tblClientes.setOnMouseClicked(this::manejarDobleClicTabla);
-
-        // Evento KeyEvent: ENTER para ver detalle, DELETE para eliminar fila seleccionada, ESC volver
         tblClientes.setOnKeyPressed(this::manejarTecladoTabla);
     }
 
@@ -99,9 +94,6 @@ public class ConsultaClientesController {
         lblContador.setText("Mostrando " + clientesFiltrados.size() + " de " + DataStore.getClientes().size() + " clientes");
     }
 
-    /**
-     * MouseEvent requerido: Al hacer doble clic sobre un cliente, se abre el detalle.
-     */
     private void manejarDobleClicTabla(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
             Cliente seleccionado = tblClientes.getSelectionModel().getSelectedItem();
@@ -111,9 +103,6 @@ public class ConsultaClientesController {
         }
     }
 
-    /**
-     * KeyEvent requerido: Enter abre detalle, Delete elimina registro, Esc vuelve al menú.
-     */
     private void manejarTecladoTabla(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             Cliente seleccionado = tblClientes.getSelectionModel().getSelectedItem();
@@ -141,9 +130,6 @@ public class ConsultaClientesController {
         abrirDetalleCliente(seleccionado);
     }
 
-    /**
-     * Demostración requerida del paso de datos entre ventanas.
-     */
     private void abrirDetalleCliente(Cliente cliente) {
         FXMLLoader loader = SceneNavigator.cambiarPantalla(
                 tblClientes,

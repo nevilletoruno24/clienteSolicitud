@@ -53,10 +53,6 @@ public class DetalleClienteController {
 
     private Cliente clienteActual;
 
-    /**
-     * Recibe la información del cliente desde la ventana de Consulta de Clientes.
-     * Demuestra el paso de datos entre formularios y ventanas.
-     */
     public void setCliente(Cliente cliente) {
         this.clienteActual = cliente;
         if (cliente == null) return;
@@ -75,12 +71,10 @@ public class DetalleClienteController {
         lblFechaRegistro.setText(cliente.getFechaRegistro() != null ? cliente.getFechaRegistro().toString() : "Hoy");
         txtObservaciones.setText(cliente.getObservaciones() != null ? cliente.getObservaciones() : "");
 
-        // Cargar imagen del cliente si existe
         if (cliente.getRutaFotografia() != null && !cliente.getRutaFotografia().isEmpty()) {
             try {
                 imgFoto.setImage(new Image(cliente.getRutaFotografia()));
             } catch (Exception e) {
-                // Si la imagen no está disponible, no bloquea la aplicación
                 imgFoto.setImage(null);
             }
         }
@@ -88,7 +82,6 @@ public class DetalleClienteController {
 
     @FXML
     private void onEditarConDialogAction() {
-        // Uso de Dialog (TextInputDialog) para agregar o editar notas
         Optional<String> nuevaNota = AlertUtil.mostrarDialogoTexto(
                 "Añadir Nota a la Solicitud",
                 "Actualizar notas de expediente para " + clienteActual.getNombreCompleto(),

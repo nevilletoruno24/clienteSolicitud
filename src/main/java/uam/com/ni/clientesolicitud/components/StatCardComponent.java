@@ -9,11 +9,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-/**
- * Componente reutilizable para tarjetas de métricas/estadísticas en el dashboard.
- * Implementa el patrón fx:root sobre VBox.
- */
-@SuppressWarnings("unused")
+
 public class StatCardComponent extends VBox {
 
     @FXML

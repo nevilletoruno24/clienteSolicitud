@@ -11,10 +11,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-/**
- * Componente reutilizable para pie de página / barra de estado.
- * Implementa el patrón fx:root sobre VBox.
- */
+
 public class FooterComponent extends VBox {
 
     @FXML

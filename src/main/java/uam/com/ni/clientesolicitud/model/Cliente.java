@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * Modelo de datos que representa a un Cliente y su Solicitud asociada.
- */
 public class Cliente {
     private String id;
     private String nombres;
@@ -40,7 +37,6 @@ public class Cliente {
         this.fechaRegistro = LocalDate.now();
     }
 
-    // Métodos de conveniencia para JavaFX TableView y PropertyValueFactory
     public String getNombreCompleto() {
         return (nombres != null ? nombres : "") + " " + (apellidos != null ? apellidos : "");
     }
@@ -57,7 +53,6 @@ public class Cliente {
         return String.join(", ", serviciosInteres);
     }
 
-    // Getters y Setters
     public String getId() {
         return id;
     }

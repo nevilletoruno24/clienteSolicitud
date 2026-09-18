@@ -6,9 +6,7 @@ import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;
 
-/**
- * Utilería centralizada para mostrar diálogos en JavaFX (Alerts y Dialogs).
- */
+
 public class AlertUtil {
 
     public static void mostrarInfo(String titulo, String encabezado, String contenido) {

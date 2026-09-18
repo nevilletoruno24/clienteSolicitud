@@ -12,7 +12,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 
-@SuppressWarnings("unused")
+
 public class CustomInput extends VBox {
 
     @FXML

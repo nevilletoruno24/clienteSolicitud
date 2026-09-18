@@ -9,10 +9,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-/**
- * Componente reutilizable para encabezados de ventana con título, subtítulo y separador.
- * Implementa el patrón fx:root sobre VBox.
- */
+
 public class HeaderComponent extends VBox {
 
     @FXML

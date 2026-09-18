@@ -73,32 +73,27 @@ public class RegistroClienteController {
 
     @FXML
     public void initialize() {
-        // Inicializar ComboBox de Tipo de Cliente
         cmbTipoCliente.setItems(FXCollections.observableArrayList(
                 "Individual", "Corporativo", "VIP", "Gubernamental"
         ));
 
-        // Inicializar ComboBox de Ciudad
         cmbCiudad.setItems(FXCollections.observableArrayList(
                 "Managua", "León", "Granada", "Matagalpa", "Estelí", "Chinandega", "Masaya", "Rivas"
         ));
 
-        // Evento de Teclado KeyEvent: Restringir que sólo se ingresen letras y espacios en nombres y apellidos
         txtNombres.addEventFilter(KeyEvent.KEY_TYPED, this::filtrarSoloLetras);
         txtApellidos.addEventFilter(KeyEvent.KEY_TYPED, this::filtrarSoloLetras);
     }
 
     private void filtrarSoloLetras(KeyEvent event) {
         char c = event.getCharacter().isEmpty() ? 0 : event.getCharacter().charAt(0);
-        // Permitir letras, espacios y teclas de control
         if (!Character.isLetter(c) && !Character.isWhitespace(c) && c != '\b' && c != '\r') {
-            event.consume(); // Cancela el evento impidiendo ingresar números o símbolos especiales
+            event.consume();
         }
     }
 
     @FXML
     private void onSeleccionarFotoAction() {
-        // FileChooser para seleccionar una fotografía
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar Fotografía del Cliente");
         fileChooser.getExtensionFilters().addAll(
@@ -128,7 +123,6 @@ public class RegistroClienteController {
         String ciudad = cmbCiudad.getValue();
         LocalDate fechaNacimiento = dpFechaNacimiento.getValue();
 
-        // Validaciones requeridas
         if (nombres.isEmpty() || apellidos.isEmpty()) {
             AlertUtil.mostrarAdvertencia("Campos Incompletos", "Datos Personales Requeridos", "Por favor, complete los nombres y apellidos del cliente.");
             txtNombres.requestFocus();
@@ -165,7 +159,6 @@ public class RegistroClienteController {
         }
         String tipoSolicitud = seleccionado.getText();
 
-        // Servicios de interés (CheckBoxes)
         List<String> servicios = new ArrayList<>();
         if (chkBancaLinea.isSelected()) servicios.add(chkBancaLinea.getText());
         if (chkTarjetaCredito.isSelected()) servicios.add(chkTarjetaCredito.getText());
@@ -174,7 +167,6 @@ public class RegistroClienteController {
 
         String observaciones = txtObservaciones.getText() != null ? txtObservaciones.getText().trim() : "";
 
-        // Crear y guardar el cliente en el almacén de datos
         Cliente nuevoCliente = new Cliente(
                 null,
                 nombres,
@@ -190,7 +182,6 @@ public class RegistroClienteController {
 
         DataStore.agregarCliente(nuevoCliente);
 
-        // Alert de información de guardado exitoso
         AlertUtil.mostrarInfo(
                 "Registro Exitoso",
                 "Cliente Registrado",
@@ -199,7 +190,6 @@ public class RegistroClienteController {
                 "\n\nLos datos han sido transferidos al catálogo de clientes."
         );
 
-        // Preguntar si desea ir a la consulta o registrar otro
         boolean irAConsulta = AlertUtil.mostrarConfirmacion(
                 "Navegación",
                 "¿Desea ver el catálogo de clientes ahora?",
